@@ -1,0 +1,14 @@
+{
+  "name": "HavenNest Homes",
+  "short_name": "HavenNest",
+  "description": "Edmonton-built homes and brand-new suites for rent.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf8f3",
+  "theme_color": "#1c1b18",
+  "icons": [
+    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/images/logo-mark.png", "sizes": "256x256", "type": "image/png" }
+  ]
+}

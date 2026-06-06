@@ -1,0 +1,89 @@
+# HavenNest CMS configuration (Sveltia CMS — Decap-compatible).
+#
+# SETUP (one-time):
+#  1. Replace `your-github-user/havennest` below with your real GitHub repo.
+#  2. Deploy the GitHub OAuth proxy (sveltia/sveltia-cms-auth) as a small Worker,
+#     register a GitHub OAuth App pointing its callback at that Worker, and set
+#     `base_url` to the Worker URL. See the project README → "Admin / CMS".
+#  3. Visit https://havennest.ca/admin and "Login with GitHub".
+#
+# Local editing without GitHub: run `npx @sveltia/cms-proxy-server` in the repo,
+# then open the dev site's /admin — `local_backend: true` enables it.
+
+backend:
+  name: github
+  repo: your-github-user/havennest
+  branch: main
+  base_url: https://havennest-cms-auth.your-subdomain.workers.dev # OAuth proxy Worker
+
+local_backend: true
+
+# Inline images used inside listing descriptions are uploaded here (served as-is).
+# NOTE: the main galleries come from /Photographs via `npm run photos`; to add new
+# gallery photos, drop them in /Photographs and re-run the photo pipeline.
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+site_url: https://havennest.ca
+display_url: https://havennest.ca
+
+collections:
+  - name: properties
+    label: "Rental Units"
+    label_singular: "Unit"
+    description: "Add or edit the rental suites shown on the site."
+    folder: "src/content/properties"
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{fields.unitType}}-{{slug}}"
+    summary: "{{title}} — ${{rent}}/mo ({{status}})"
+    sortable_fields: [order, rent, title, status]
+    fields:
+      - { label: "Title", name: title, widget: string }
+      - {
+          label: "Unit type",
+          name: unitType,
+          widget: select,
+          options: [{ label: "Main-floor suite", value: "main" }, { label: "Basement suite", value: "basement" }],
+          default: "main",
+        }
+      - { label: "Unit label (e.g. Main-floor Unit 1)", name: unitLabel, widget: string, required: false }
+      - {
+          label: "Status",
+          name: status,
+          widget: select,
+          options: [{ label: "Available", value: "available" }, { label: "Application pending", value: "pending" }, { label: "Rented", value: "rented" }],
+          default: "available",
+        }
+      - { label: "Bedrooms", name: beds, widget: number, value_type: int, min: 0, max: 10 }
+      - { label: "Bathrooms", name: baths, widget: number, value_type: float, step: 0.5, min: 0 }
+      - { label: "Size (sq ft)", name: sqft, widget: number, value_type: int }
+      - { label: "Monthly rent ($)", name: rent, widget: number, value_type: int }
+      - { label: "Garage price ($/mo)", name: garagePrice, widget: number, value_type: int, default: 125, hint: "Detached single-car garage; street parking is free." }
+      - { label: "Detached garage available", name: garageAvailable, widget: boolean, default: true }
+      - { label: "Utilities note", name: utilitiesNote, widget: string, default: "Tenant pays utilities" }
+      - { label: "Deposit note", name: depositNote, widget: string, required: false }
+      - {
+          label: "Photo set",
+          name: gallery,
+          widget: select,
+          hint: "Which finished-photo gallery to show for this unit.",
+          options: [{ label: "Main floor", value: "main" }, { label: "Basement", value: "basement" }, { label: "Exterior", value: "exterior" }],
+          default: "main",
+        }
+      - { label: "Cover photo index", name: coverIndex, widget: number, value_type: int, default: 0, hint: "0 = first photo in the set; change so cards look different." }
+      - { label: "Available from", name: availableFrom, widget: string, default: "Available now" }
+      - { label: "Short summary (for cards & search)", name: summary, widget: text, required: false }
+      - { label: "Features", name: features, widget: list, field: { label: Feature, name: feature, widget: string } }
+      - { label: "Appliances", name: appliances, widget: list, field: { label: Appliance, name: appliance, widget: string } }
+      - { label: "Sort order", name: order, widget: number, value_type: int, default: 0 }
+      - {
+          label: "Custom HTML/CSS block (advanced, optional)",
+          name: customHtml,
+          widget: text,
+          required: false,
+          hint: "Optional raw HTML with inline styles for a custom section on this listing. Scripts and iframes are stripped for security.",
+        }
+      - { label: "Description", name: body, widget: markdown }

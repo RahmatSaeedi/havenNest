@@ -1,0 +1,263 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.property.mapsQuery)}`;
+---
+
+<Base
+  title="Contact"
+  description="Get in touch with HavenNest about renting a suite or about our building work in Edmonton."
+>
+  <section class="section container">
+    <div class="contact">
+      <div class="contact__intro">
+        <p class="eyebrow">Get in touch</p>
+        <h1>Contact HavenNest</h1>
+        <p class="lead">
+          Questions about a suite, a tour, or our building work? Send us a note and we'll
+          get back to you. To rent, the fastest path is the online application.
+        </p>
+
+        <ul class="contact__details">
+          <li>
+            <span class="contact__label">Address</span>
+            <a href={mapsUrl} target="_blank" rel="noopener">
+              {site.property.addressLine}<br />{site.property.city}, {site.property.province}, {site.property.country}
+            </a>
+          </li>
+          <li>
+            <span class="contact__label">Email</span>
+            <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+          </li>
+          {site.contact.phone && (
+            <li>
+              <span class="contact__label">Phone</span>
+              <a href={`tel:${site.contact.phone.replace(/\D/g, '')}`}>{site.contact.phone}</a>
+            </li>
+          )}
+          <li>
+            <span class="contact__label">Looking to rent?</span>
+            <a href="/apply">Start your rental application →</a>
+          </li>
+        </ul>
+      </div>
+
+      <form class="contact__form card" id="contactForm" novalidate>
+        <div class="field">
+          <label for="c-name">Your name</label>
+          <input id="c-name" name="name" type="text" autocomplete="name" required maxlength="120" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-email">Email</label>
+            <input id="c-email" name="email" type="email" autocomplete="email" required maxlength="160" />
+          </div>
+          <div class="field">
+            <label for="c-phone">Phone <span class="opt">(optional)</span></label>
+            <input id="c-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" data-mask="phone" maxlength="16" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-reason">I'm contacting about</label>
+          <select id="c-reason" name="reason" required>
+            <option value="">Please choose…</option>
+            <option value="rent">Renting a suite</option>
+            <option value="tour">Booking a tour</option>
+            <option value="builder">A building / development enquiry</option>
+            <option value="other">Something else</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="c-message">Message</label>
+          <textarea id="c-message" name="message" rows="5" required maxlength="2000"></textarea>
+        </div>
+
+        <!-- honeypot: hidden from humans, bots tend to fill it -->
+        <div class="hp" aria-hidden="true">
+          <label for="c-website">Website</label>
+          <input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-theme="light"></div>
+
+        <button type="submit" class="btn btn--primary btn--lg btn--block" data-submit>Send message</button>
+        <p class="form-status" role="status" aria-live="polite" data-status></p>
+      </form>
+    </div>
+  </section>
+
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</Base>
+
+<style>
+  .contact {
+    display: grid;
+    gap: var(--s-6);
+    align-items: start;
+  }
+  @media (min-width: 880px) {
+    .contact {
+      grid-template-columns: 1fr 1.1fr;
+      gap: var(--s-7);
+    }
+  }
+  .contact__details {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--s-5);
+    display: grid;
+    gap: var(--s-4);
+  }
+  .contact__details li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .contact__label {
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .contact__form {
+    padding: clamp(1.4rem, 4vw, 2.2rem);
+    display: grid;
+    gap: var(--s-4);
+  }
+  .field {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .field-row {
+    display: grid;
+    gap: var(--s-4);
+  }
+  @media (min-width: 520px) {
+    .field-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .field label {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .opt {
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+    transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+  }
+  .field textarea {
+    min-height: auto;
+    resize: vertical;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: var(--focus-ring);
+  }
+  .field input[aria-invalid='true'],
+  .field textarea[aria-invalid='true'],
+  .field select[aria-invalid='true'] {
+    border-color: var(--bad);
+  }
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .form-status {
+    margin: 0;
+    font-size: var(--fs-sm);
+    font-weight: 500;
+  }
+  .form-status[data-state='error'] {
+    color: var(--bad);
+  }
+  .form-status[data-state='ok'] {
+    color: var(--ok);
+  }
+</style>
+
+<script>
+  import { site } from '../data/site';
+
+  const form = document.getElementById('contactForm') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector<HTMLElement>('[data-status]');
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]');
+
+    const setStatus = (msg: string, state: 'ok' | 'error' | '') => {
+      if (!status) return;
+      status.textContent = msg;
+      if (state) status.dataset.state = state;
+      else status.removeAttribute('data-state');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // Honeypot: silently succeed for bots.
+      if ((form.elements.namedItem('website') as HTMLInputElement)?.value) {
+        setStatus('Thanks — your message has been sent.', 'ok');
+        form.reset();
+        return;
+      }
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      const token = (form.elements.namedItem('cf-turnstile-response') as HTMLInputElement)?.value;
+      if (!token) {
+        setStatus('Please complete the verification challenge.', 'error');
+        return;
+      }
+
+      const payload = {
+        name: (form.elements.namedItem('name') as HTMLInputElement).value.trim(),
+        email: (form.elements.namedItem('email') as HTMLInputElement).value.trim(),
+        phone: (form.elements.namedItem('phone') as HTMLInputElement).value.trim(),
+        reason: (form.elements.namedItem('reason') as HTMLSelectElement).value,
+        message: (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim(),
+        token,
+      };
+
+      submit?.setAttribute('disabled', 'true');
+      setStatus('Sending…', '');
+      try {
+        const res = await fetch(`${site.apiBase}/api/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        setStatus('Thanks — your message has been sent. We\'ll be in touch soon.', 'ok');
+        form.reset();
+        // @ts-ignore - reset Turnstile widget if present
+        window.turnstile?.reset?.();
+      } catch {
+        setStatus(
+          `Sorry, something went wrong. Please email us directly at ${site.contact.email}.`,
+          'error'
+        );
+      } finally {
+        submit?.removeAttribute('disabled');
+      }
+    });
+  }
+</script>

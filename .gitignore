@@ -1,0 +1,34 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# cloudflare worker
+worker/node_modules/
+worker/.wrangler/
+worker/dist/
+.dev.vars
+
+# os / editor
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+
+# secrets / env
+*.local
+.env
+.env.*
+*.md
+
+# NOTE: web-optimized images in public/images/** and brand favicons ARE committed
+# (generated locally via `npm run assets`) so CI only needs `astro build`.
+
+# Large source originals — keep these OUT of git (365 MB+). Keep them locally /
+# in cloud storage; regenerate web assets with `npm run photos`.
+Photographs/
+
+# Verification screenshots
+_shots/

@@ -1,0 +1,239 @@
+---
+import Base from '../layouts/Base.astro';
+import Gallery from '../components/Gallery.astro';
+import { getSet, default as photos } from '../data/photos';
+import { site } from '../data/site';
+
+const construction = getSet('construction');
+const video = photos.video;
+
+const steps = [
+  { t: 'Foundation & framing', d: 'Every build starts with a solid, properly engineered foundation and precision framing — the bones that determine how a home performs for decades.' },
+  { t: 'Insulation & soundproofing', d: 'We install best-in-market insulation and sound-proofing between every unit, so homes stay quiet, warm in winter and cool in summer.' },
+  { t: 'Finishing & quartz', d: 'Brand-new appliances, quartz countertops, matte-black fixtures and warm wood-tone floors bring each suite to a clean, modern, move-in-ready finish.' },
+  { t: 'Yard, fencing & handover', d: 'Landscaping and fencing are completed before tenants move in, and detached garages are available for those who want them.' },
+];
+---
+
+<Base
+  title="Our Builds"
+  description="HavenNest designs and builds quality custom and multi-family homes in Edmonton — soundproofed, premium-insulated and finished to a high standard."
+>
+  <section class="bld-hero">
+    {construction[3] && <img class="bld-hero__bg" src={construction[3].full} alt={construction[3].alt} loading="eager" width={construction[3].w} height={construction[3].h} />}
+    <div class="bld-hero__overlay"></div>
+    <div class="container bld-hero__inner">
+      <p class="eyebrow" style="color:var(--gold-bright)">The HavenNest build</p>
+      <h1>We build the homes we rent.</h1>
+      <p class="lead" style="color:rgba(244,240,232,.92); max-width:52ch">
+        HavenNest is an Edmonton builder of custom and multi-family homes. We control quality
+        from the foundation up — which is exactly why our rentals feel different.
+      </p>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="bld-intro">
+      <div data-reveal>
+        <p class="eyebrow">Who we are</p>
+        <h2 class="section__title">Craftsmanship you can stand on.</h2>
+      </div>
+      <div class="prose" data-reveal>
+        <p>
+          HavenNest specializes in crafting custom residential spaces and multi-family homes across
+          Edmonton. Our latest project — a brand-new fourplex at {site.property.addressLine} — brings
+          eight thoughtfully designed suites to the city's west end.
+        </p>
+        <p>
+          Because we're the builder, every detail is intentional: sound-proofing between units,
+          best-in-market insulation, quartz countertops, brand-new appliances and clean, modern
+          finishes throughout. When you rent a HavenNest home, you're moving into work we're proud
+          to put our name on.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE BUILD -->
+  <section class="section--sand section">
+    <div class="container">
+      <p class="eyebrow">How we build</p>
+      <h2 class="section__title">From the ground up.</h2>
+      <ol class="timeline">
+        {steps.map((s, i) => (
+          <li class="timeline__step" data-reveal>
+            <span class="timeline__num">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- WALKTHROUGH VIDEO -->
+  {video && (
+    <section class="section container">
+      <p class="eyebrow">Site walkthrough</p>
+      <h2 class="section__title">Take a look around the build.</h2>
+      <div class="videowrap" data-reveal>
+        <video
+          controls
+          preload="none"
+          poster={video.poster ?? undefined}
+          playsinline
+        >
+          <source src={video.src} type="video/mp4" />
+          Your browser doesn't support embedded video.
+          <a href={video.src}>Download the walkthrough video</a>.
+        </video>
+      </div>
+    </section>
+  )}
+
+  <!-- CONSTRUCTION GALLERY -->
+  {construction.length > 0 && (
+    <section class="section--sand section">
+      <div class="container">
+        <p class="eyebrow">Progress photos</p>
+        <h2 class="section__title">The build in pictures.</h2>
+        <div style="margin-top:var(--s-5)">
+          <Gallery items={construction} group="construction" />
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="section--dark">
+    <div class="container endcta">
+      <div>
+        <h2>Like what you see?</h2>
+        <p class="lead">Tour our available suites, or get in touch about a future build.</p>
+      </div>
+      <div class="endcta__btns">
+        <a class="btn btn--primary btn--lg" href="/properties">View available units</a>
+        <a class="btn btn--on-dark btn--lg" href="/contact">Contact us</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .bld-hero {
+    position: relative;
+    min-height: min(60vh, 520px);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: var(--dark);
+  }
+  .bld-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .bld-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(28, 27, 24, 0.4), rgba(28, 27, 24, 0.85));
+  }
+  .bld-hero__inner {
+    position: relative;
+    color: var(--on-dark);
+    padding-block: clamp(2.5rem, 7vw, 4.5rem);
+  }
+  .bld-hero__inner h1 {
+    color: #fff;
+    margin-top: 0.5rem;
+  }
+
+  .bld-intro {
+    display: grid;
+    gap: var(--s-5);
+  }
+  @media (min-width: 860px) {
+    .bld-intro {
+      grid-template-columns: 1fr 1.4fr;
+      gap: var(--s-7);
+    }
+  }
+  .section__title {
+    margin-top: 0.4rem;
+  }
+
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--s-6);
+    display: grid;
+    gap: var(--s-5);
+    counter-reset: step;
+  }
+  @media (min-width: 760px) {
+    .timeline {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .timeline__step {
+    display: flex;
+    gap: 1rem;
+    padding: 1.4rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+  }
+  .timeline__num {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--gold-deep);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .timeline__step h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.35rem;
+  }
+  .timeline__step p {
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+  }
+
+  .videowrap {
+    margin-top: var(--s-5);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--dark);
+    box-shadow: var(--shadow-2);
+  }
+  .videowrap video {
+    width: 100%;
+    max-height: 70vh;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    background: #000;
+  }
+
+  .endcta {
+    display: grid;
+    gap: var(--s-5);
+    align-items: center;
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+  }
+  @media (min-width: 820px) {
+    .endcta {
+      grid-template-columns: 1fr auto;
+    }
+  }
+  .endcta__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+</style>

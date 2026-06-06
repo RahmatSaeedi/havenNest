@@ -1,0 +1,521 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PropertyCard from '../components/PropertyCard.astro';
+import { getSet } from '../data/photos';
+import { site } from '../data/site';
+import { money } from '../lib/format';
+
+const properties = (await getCollection('properties')).sort((a, b) => a.data.order - b.data.order);
+const available = properties.filter((p) => p.data.status === 'available');
+const minRent = Math.min(...properties.map((p) => p.data.rent));
+const featured = available.slice(0, 3);
+
+const exterior = getSet('exterior');
+const hero = exterior[0];
+const interior = [...getSet('main').slice(0, 2), ...getSet('basement').slice(0, 1)];
+const construction = getSet('construction')[0];
+const finished = getSet('main')[1];
+
+const diffs = [
+  { t: 'Scandinavian finishes', d: 'Bright, open-concept interiors with matte-black fixtures and warm wood-tone floors.' },
+  { t: 'Quartz throughout', d: 'Quartz countertops in every kitchen and bath — durable, timeless, brand new.' },
+  { t: 'Quiet & efficient', d: 'Sound-proofing between every unit and best-in-market insulation for low utility bills.' },
+  { t: 'Legal basement suites', d: 'Fully legal, permitted suites with proper egress, in-suite laundry and full kitchens.' },
+];
+---
+
+<Base>
+  <!-- HERO -->
+  <section class="hero">
+    {hero && <img class="hero__bg" src={hero.full} alt={hero.alt} fetchpriority="high" width={hero.w} height={hero.h} />}
+    <div class="hero__overlay"></div>
+    <div class="container hero__inner">
+      <p class="eyebrow hero__eyebrow">Edmonton builder &amp; rentals</p>
+      <h1 class="hero__title">Built better.<br /><span class="gold-text">Lived better.</span></h1>
+      <p class="hero__lead">
+        HavenNest designs and builds quality homes in Edmonton — and we're now leasing
+        brand-new suites with premium finishes at {site.property.addressLine}.
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary btn--lg" href="/properties">View available units</a>
+        <a class="btn btn--on-dark btn--lg" href="/builder">Our builder story</a>
+      </div>
+      <dl class="hero__stats">
+        <div><dt>From</dt><dd>{money(minRent)}<small>/mo</small></dd></div>
+        <div><dt>Suites</dt><dd>{properties.length}</dd></div>
+        <div><dt>Available</dt><dd>{available.length}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="trust">
+    <div class="container trust__inner">
+      {['8 legal suites', 'Soundproofed', 'Premium insulation', 'Brand-new appliances', 'Edmonton-built'].map((t) => (
+        <span class="trust__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          {t}
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- DUAL PATH -->
+  <section class="section container">
+    <div class="dual">
+      <a class="dual__card" href="/properties" data-reveal>
+        <span class="dual__kicker">Looking for a home</span>
+        <h2>Rent a brand-new suite</h2>
+        <p>Move into a never-lived-in home with modern finishes, in-suite laundry and new appliances. Apply online in minutes.</p>
+        <span class="dual__go">Browse available units →</span>
+      </a>
+      <a class="dual__card dual__card--dark" href="/builder" data-reveal>
+        <span class="dual__kicker">Interested in our work</span>
+        <h2>See what we build</h2>
+        <p>From foundation to finishing, we craft custom residential homes and multi-family builds across Edmonton.</p>
+        <span class="dual__go">Explore our builds →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FEATURED PROPERTY -->
+  <section class="section--sand section">
+    <div class="container featured">
+      <div class="featured__media" data-reveal>
+        {exterior[1] && <img src={exterior[1].full} alt={exterior[1].alt} loading="lazy" width={exterior[1].w} height={exterior[1].h} />}
+      </div>
+      <div class="featured__body" data-reveal>
+        <p class="eyebrow">Now leasing</p>
+        <h2>{site.property.name}</h2>
+        <p class="lead">
+          A brand-new fourplex in Edmonton's west end with {properties.length} suites — four
+          main-floor homes and four legal basement suites — each soundproofed, premium-insulated
+          and finished with quartz and all-new appliances.
+        </p>
+        <ul class="featured__facts">
+          <li><strong>{money(minRent)}</strong> starting rent</li>
+          <li><strong>2–3</strong> bedrooms</li>
+          <li><strong>685–1,417</strong> sq ft</li>
+        </ul>
+        <div class="featured__cta">
+          <a class="btn btn--primary btn--lg" href="/properties">See all units</a>
+          <a class="btn btn--secondary btn--lg" href="/apply">Apply to rent</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFFERENTIATORS -->
+  <section class="section container">
+    <p class="eyebrow">Why HavenNest</p>
+    <h2 class="section__title">The difference is in the build.</h2>
+    <div class="diffs grid grid-md-4">
+      {diffs.map((x, i) => (
+        <div class="diff" data-reveal>
+          <span class="diff__num">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{x.t}</h3>
+          <p>{x.d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- INTERIOR TEASER -->
+  {interior.length > 0 && (
+    <section class="section--sand section">
+      <div class="container">
+        <div class="teaser__head">
+          <div>
+            <p class="eyebrow">Inside the suites</p>
+            <h2 class="section__title">Light, space and quality you can feel.</h2>
+          </div>
+          <a class="btn btn--secondary" href="/properties">View all units</a>
+        </div>
+        <div class="teaser grid grid-md-3">
+          {interior.map((p) => (
+            <img class="teaser__img" src={p.thumb} alt={p.alt} loading="lazy" width={p.w} height={p.h} data-reveal style={`aspect-ratio:${p.w}/${p.h}`} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- BEFORE / AFTER -->
+  {construction && finished && (
+    <section class="section container">
+      <p class="eyebrow">From the ground up</p>
+      <h2 class="section__title">We don't just rent homes — we build them.</h2>
+      <div class="beforeafter">
+        <figure data-reveal>
+          <img src={construction.thumb} alt={construction.alt} loading="lazy" width={construction.w} height={construction.h} />
+          <figcaption>Under construction</figcaption>
+        </figure>
+        <figure data-reveal>
+          <img src={finished.thumb} alt={finished.alt} loading="lazy" width={finished.w} height={finished.h} />
+          <figcaption>Finished &amp; move-in ready</figcaption>
+        </figure>
+      </div>
+      <p class="beforeafter__cta">
+        <a class="btn btn--ghost" href="/builder">See how we build →</a>
+      </p>
+    </section>
+  )}
+
+  <!-- FEATURED UNITS -->
+  {featured.length > 0 && (
+    <section class="section--sand section">
+      <div class="container">
+        <div class="teaser__head">
+          <div>
+            <p class="eyebrow">Available now</p>
+            <h2 class="section__title">Featured units</h2>
+          </div>
+          <a class="btn btn--secondary" href="/properties">See all {available.length} units</a>
+        </div>
+        <ul class="featured-units grid grid-md-3">
+          {featured.map((entry) => (
+            <li><PropertyCard entry={entry} /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- FINAL CTA -->
+  <section class="section--dark">
+    <div class="container endcta">
+      <div>
+        <h2>Ready to make one of these your home?</h2>
+        <p class="lead">Applying is free — HavenNest never charges a rental application fee.</p>
+      </div>
+      <div class="endcta__btns">
+        <a class="btn btn--primary btn--lg" href="/apply">Start your application</a>
+        <a class="btn btn--on-dark btn--lg" href="/contact">Contact us</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: min(86vh, 760px);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: var(--dark);
+  }
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(28, 27, 24, 0.35) 0%, rgba(28, 27, 24, 0.2) 35%, rgba(28, 27, 24, 0.88) 100%);
+  }
+  .hero__inner {
+    position: relative;
+    padding-block: clamp(2.5rem, 8vw, 5rem);
+    color: var(--on-dark);
+  }
+  .hero__eyebrow {
+    color: var(--gold-bright);
+  }
+  .hero__title {
+    color: #fff;
+    font-size: var(--fs-hero);
+    margin-top: 0.5rem;
+  }
+  .hero__lead {
+    color: rgba(244, 240, 232, 0.92);
+    font-size: var(--fs-lead);
+    max-width: 46ch;
+    margin-top: 1rem;
+  }
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+  .hero__stats {
+    display: flex;
+    gap: clamp(1.5rem, 5vw, 3rem);
+    margin-top: 2.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(244, 240, 232, 0.2);
+  }
+  .hero__stats dt {
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--on-dark-muted);
+  }
+  .hero__stats dd {
+    margin: 0.15rem 0 0;
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+  .hero__stats dd small {
+    font-size: 0.9rem;
+    color: var(--on-dark-muted);
+    font-weight: 400;
+  }
+
+  /* TRUST */
+  .trust {
+    background: var(--ink);
+    color: var(--on-dark);
+  }
+  .trust__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 2rem;
+    padding-block: 1rem;
+  }
+  .trust__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    color: var(--on-dark);
+  }
+  .trust__item svg {
+    color: var(--gold-bright);
+  }
+
+  .section__title {
+    margin-top: 0.4rem;
+    max-width: 20ch;
+  }
+
+  /* DUAL PATH */
+  .dual {
+    display: grid;
+    gap: var(--s-5);
+  }
+  @media (min-width: 760px) {
+    .dual {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .dual__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    box-shadow: var(--shadow-1);
+    transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease);
+  }
+  .dual__card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-2);
+    color: var(--ink);
+  }
+  .dual__card--dark {
+    background: var(--dark);
+    color: var(--on-dark);
+    border-color: transparent;
+  }
+  .dual__card--dark:hover {
+    color: var(--on-dark);
+  }
+  .dual__card--dark h2 {
+    color: #fff;
+  }
+  .dual__kicker {
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+  .dual__card--dark .dual__kicker {
+    color: var(--gold-bright);
+  }
+  .dual__card p {
+    color: var(--ink-2);
+  }
+  .dual__card--dark p {
+    color: var(--on-dark-muted);
+  }
+  .dual__go {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-weight: 600;
+    color: var(--gold-deep);
+  }
+  .dual__card--dark .dual__go {
+    color: var(--gold-bright);
+  }
+
+  /* FEATURED */
+  .featured {
+    display: grid;
+    gap: var(--s-6);
+    align-items: center;
+  }
+  @media (min-width: 860px) {
+    .featured {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--s-7);
+    }
+  }
+  .featured__media img {
+    width: 100%;
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-2);
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+  .featured__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 1.1rem 0;
+    margin: 1.2rem 0;
+    border-block: 1px solid var(--line);
+  }
+  .featured__facts strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--ink);
+  }
+  .featured__facts li {
+    font-size: var(--fs-sm);
+    color: var(--muted);
+  }
+  .featured__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  /* DIFFS */
+  .diffs {
+    margin-top: var(--s-6);
+  }
+  .diff {
+    padding: 1.4rem;
+    border-radius: var(--r);
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .diff__num {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--gold-deep);
+    font-weight: 600;
+  }
+  .diff h3 {
+    font-size: 1.15rem;
+    margin: 0.5rem 0 0.4rem;
+  }
+  .diff p {
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+  }
+
+  /* TEASER */
+  .teaser__head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: var(--s-5);
+  }
+  .teaser__img {
+    width: 100%;
+    border-radius: var(--r);
+    object-fit: cover;
+    box-shadow: var(--shadow-1);
+  }
+
+  /* BEFORE/AFTER */
+  .beforeafter {
+    display: grid;
+    gap: var(--s-4);
+    margin-top: var(--s-6);
+  }
+  @media (min-width: 700px) {
+    .beforeafter {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .beforeafter figure {
+    margin: 0;
+    position: relative;
+  }
+  .beforeafter img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: var(--r);
+  }
+  .beforeafter figcaption {
+    position: absolute;
+    left: 0.75rem;
+    bottom: 0.75rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--r-pill);
+    background: rgba(28, 27, 24, 0.78);
+    color: #fff;
+    font-size: var(--fs-xs);
+    font-weight: 600;
+  }
+  .beforeafter__cta {
+    margin-top: var(--s-4);
+  }
+
+  .featured-units {
+    list-style: none;
+    padding: 0;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 600px) {
+    .featured-units {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1000px) {
+    .featured-units {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* END CTA */
+  .endcta {
+    display: grid;
+    gap: var(--s-5);
+    align-items: center;
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+  }
+  @media (min-width: 820px) {
+    .endcta {
+      grid-template-columns: 1fr auto;
+    }
+  }
+  .endcta__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+</style>

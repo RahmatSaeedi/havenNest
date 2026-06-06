@@ -1,0 +1,202 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PropertyCard from '../../components/PropertyCard.astro';
+import { site } from '../../data/site';
+import { money } from '../../lib/format';
+
+const properties = (await getCollection('properties')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const available = properties.filter((p) => p.data.status === 'available');
+const minRent = Math.min(...properties.map((p) => p.data.rent));
+const mainCount = properties.filter((p) => p.data.unitType === 'main').length;
+const bsmtCount = properties.filter((p) => p.data.unitType === 'basement').length;
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.property.mapsQuery)}`;
+const garagePrice = 125;
+---
+
+<Base
+  title="Available Units"
+  description={`Brand-new suites for rent at ${site.property.addressLine}, ${site.property.city}. Main-floor and legal basement suites from ${money(minRent)}/mo.`}
+>
+  <section class="section-tight container">
+    <p class="eyebrow">Now leasing in Edmonton</p>
+    <div class="plist__head">
+      <div>
+        <h1>Available units</h1>
+        <p class="lead">
+          {properties.length} brand-new suites at
+          <a href={mapsUrl} target="_blank" rel="noopener">{site.property.addressLine}, {site.property.city}</a>.
+          {mainCount} main-floor homes &amp; {bsmtCount} legal basement suites — soundproofed,
+          premium-insulated, with all-new appliances.
+        </p>
+      </div>
+      <div class="plist__from card">
+        <span>Starting from</span>
+        <strong>{money(minRent)}<small>/mo</small></strong>
+        <span class="plist__from-note">{available.length} available now</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight container">
+    <div class="filterbar" role="group" aria-label="Filter units by type">
+      <button class="filterbar__btn is-active" data-filter="all" aria-pressed="true">All units</button>
+      <button class="filterbar__btn" data-filter="main" aria-pressed="false">Main-floor</button>
+      <button class="filterbar__btn" data-filter="basement" aria-pressed="false">Basement</button>
+    </div>
+
+    <ul class="plist grid" data-plist>
+      {
+        properties.map((entry) => (
+          <li data-type={entry.data.unitType}>
+            <PropertyCard entry={entry} />
+          </li>
+        ))
+      }
+    </ul>
+    <p class="plist__empty" data-empty hidden>No units match that filter.</p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="addon card">
+        <div>
+          <h2>Parking &amp; garages</h2>
+          <p class="lead">
+            Free street parking is available to all tenants. Single-car detached garages at the rear
+            of the building can be added for {money(garagePrice)}/month.
+          </p>
+        </div>
+        <a class="btn btn--primary btn--lg" href="/apply">Apply to Rent</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .plist__head {
+    display: grid;
+    gap: var(--s-5);
+    align-items: end;
+    margin-top: 0.75rem;
+  }
+  @media (min-width: 820px) {
+    .plist__head {
+      grid-template-columns: 1fr auto;
+    }
+  }
+  .plist__from {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+    padding: 1rem 1.4rem;
+    min-width: 200px;
+  }
+  .plist__from span {
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .plist__from strong {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--ink);
+  }
+  .plist__from strong small {
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .plist__from-note {
+    color: var(--ok) !important;
+    font-weight: 600;
+  }
+
+  .filterbar {
+    display: inline-flex;
+    gap: 0.35rem;
+    padding: 0.35rem;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    margin-bottom: var(--s-5);
+  }
+  .filterbar__btn {
+    border: 0;
+    background: transparent;
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--r-pill);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--ink-2);
+    transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+  }
+  .filterbar__btn.is-active {
+    background: var(--ink);
+    color: var(--on-dark);
+  }
+
+  .plist {
+    grid-template-columns: 1fr;
+    list-style: none;
+    padding: 0;
+  }
+  @media (min-width: 600px) {
+    .plist {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1000px) {
+    .plist {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .plist li[hidden] {
+    display: none;
+  }
+  .plist__empty {
+    color: var(--muted);
+    padding: 2rem 0;
+  }
+
+  .addon {
+    display: grid;
+    gap: var(--s-5);
+    align-items: center;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    background: var(--surface-2);
+  }
+  @media (min-width: 760px) {
+    .addon {
+      grid-template-columns: 1fr auto;
+    }
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filterbar__btn');
+  const items = document.querySelectorAll<HTMLLIElement>('[data-plist] li');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      buttons.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-pressed', String(active));
+      });
+      let visible = 0;
+      items.forEach((li) => {
+        const show = filter === 'all' || li.dataset.type === filter;
+        li.hidden = !show;
+        if (show) visible++;
+      });
+      if (empty) empty.hidden = visible !== 0;
+    });
+  });
+</script>

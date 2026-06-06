@@ -1,0 +1,7 @@
+# Copy to `.dev.vars` for local development (gitignored).
+# In production, set these with: wrangler secret put NAME
+TURNSTILE_SECRET=your-turnstile-secret-key
+JWT_SECRET=a-long-random-string
+FILE_SIGNING_SECRET=another-long-random-string
+# Optional: set to 1 to skip email sending locally
+DISABLE_EMAIL=1

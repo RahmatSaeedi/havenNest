@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+// NOTE TO OWNER: This privacy policy is a strong, plain-language draft based on
+// Alberta PIPA / federal PIPEDA principles. Have an Alberta lawyer review it
+// (and your screening criteria and consent text) before launch.
+const updated = 'June 2026';
+---
+
+<Base title="Privacy Policy" description="How HavenNest collects, uses, protects and retains the personal information you provide.">
+  <section class="section container container-narrow">
+    <p class="eyebrow">Your privacy</p>
+    <h1>Privacy Policy</h1>
+    <p class="lead">
+      This policy explains what personal information {site.legalName} collects through this
+      website and rental application, why we collect it, and how we protect, use and dispose of it.
+    </p>
+    <p class="muted">Last updated: {updated}</p>
+
+    <div class="prose policy">
+      <h2>1. Who we are</h2>
+      <p>
+        {site.legalName} ("HavenNest", "we", "us") is an Edmonton, Alberta property builder and
+        landlord. We are responsible for the personal information collected through this site and
+        our rental application. You can reach us at
+        <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.
+      </p>
+
+      <h2>2. What we collect</h2>
+      <p>When you submit a rental application, we may collect:</p>
+      <ul>
+        <li>Identity &amp; contact details (legal name, date of birth, email, phone, current and previous addresses);</li>
+        <li>Household information — the people who will live in the unit, their dates of birth, relationship to you, and whether adults (18+) will co-sign the lease;</li>
+        <li>Residence and rental history, including landlord references and your reason for moving;</li>
+        <li>Employment and income information, from any lawful source;</li>
+        <li>Proof of income / pay stubs uploaded with your application;</li>
+        <li>Only if your application is shortlisted, and via a separate secure link: a credit report and a government-issued photo ID;</li>
+        <li>Pets, vehicles, an emergency contact, and your consents and electronic signature (with a timestamp).</li>
+      </ul>
+      <p>
+        We do <strong>not</strong> collect your Social Insurance Number, and we never charge a
+        rental application fee. We only collect information that is reasonably required to evaluate
+        your application and, if approved, to administer the tenancy.
+      </p>
+
+      <h2>3. Why we collect it &amp; your consent</h2>
+      <p>
+        We collect this information to assess your suitability as a tenant and to manage the
+        tenancy if you're approved. By submitting the application you consent to this collection
+        and use. Before any credit or background check, we ask for your <strong>separate, explicit
+        authorization</strong>. You may withdraw consent in writing before a check is performed,
+        though this may mean we cannot process your application.
+      </p>
+
+      <h2>4. Credit &amp; background checks</h2>
+      <p>
+        With your authorization, we (or an authorized screening agent) may obtain a consumer credit
+        report and verify the information you provide. Your full legal name and date of birth are
+        sufficient for this — we do not require your SIN. Where we use a third-party screening
+        service, we remain responsible for protecting your information.
+      </p>
+
+      <h2>5. How your documents and data are handled</h2>
+      <p>
+        Uploaded files are transmitted over an encrypted (HTTPS) connection and stored in a private,
+        access-restricted location; we generate only short-lived links for authorized review and
+        never publish your documents. Your application is delivered securely to HavenNest. We apply
+        consistent screening criteria to every applicant and do not make decisions based on
+        protected characteristics under the <em>Alberta Human Rights Act</em> (including source of
+        income, family status, or similar grounds).
+      </p>
+
+      <h2>6. Service providers &amp; cross-border processing</h2>
+      <p>
+        We use reputable infrastructure providers (including Cloudflare for hosting, security,
+        storage and email delivery, and GitHub for site hosting) to operate this site and process
+        applications. Some of these providers may store or process data on servers located outside
+        Alberta or Canada, where it may be subject to the laws of those jurisdictions. We take
+        reasonable steps to ensure our providers protect your information.
+      </p>
+
+      <h2>7. Retention &amp; secure destruction</h2>
+      <p>
+        We keep applicant information only as long as reasonably necessary. If your application is
+        not successful, we securely destroy your application and supporting documents (such as your
+        credit report, proof of income and any ID image) within a reasonable period once they are
+        no longer needed. If you become a tenant, we retain the information needed to administer
+        your tenancy for as long as required.
+      </p>
+
+      <h2>8. Your rights</h2>
+      <p>
+        You may request access to, or correction of, the personal information we hold about you, and
+        you may ask questions about how it is handled. Contact us at
+        <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> and we will respond as
+        required under Alberta's <em>Personal Information Protection Act</em> (PIPA) and, where
+        applicable, the federal <em>Personal Information Protection and Electronic Documents Act</em>
+        (PIPEDA).
+      </p>
+
+      <h2>9. Changes to this policy</h2>
+      <p>
+        We may update this policy from time to time. The "last updated" date above reflects the most
+        recent revision.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .muted {
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    margin-top: -0.5rem;
+  }
+  .policy {
+    margin-top: var(--s-6);
+  }
+  .policy h2 {
+    font-size: 1.35rem;
+  }
+</style>

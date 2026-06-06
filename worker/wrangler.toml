@@ -1,0 +1,40 @@
+name = "havennest-api"
+main = "src/index.ts"
+compatibility_date = "2025-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Non-secret configuration. Secrets (TURNSTILE_SECRET, JWT_SECRET,
+# FILE_SIGNING_SECRET) are set with `wrangler secret put NAME` and locally in
+# .dev.vars — never commit them.
+[vars]
+ALLOWED_ORIGINS = "https://havennest.ca,https://www.havennest.ca,http://localhost:4321,http://127.0.0.1:4321"
+# FROM must be an address on a domain with Cloudflare Email Routing enabled.
+FROM_EMAIL = "applications@havennest.ca"
+# OWNER must be a VERIFIED destination address in Email Routing (this is where
+# applications are delivered — e.g. a dedicated, 2FA-protected inbox).
+OWNER_EMAIL = "owner@havennest.ca"
+PUBLIC_API_BASE = "https://api.havennest.ca"
+# Public site origin — used to build the shortlist document-upload link.
+SITE_BASE = "https://havennest.ca"
+FILE_LINK_TTL_DAYS = "14"
+# How long the shortlist upload link the owner forwards stays valid.
+DOC_REQUEST_TTL_DAYS = "30"
+
+# Private R2 bucket for uploaded documents (create it first:
+#   wrangler r2 bucket create havennest-applications
+# and add a lifecycle rule to auto-delete objects after your retention window).
+[[r2_buckets]]
+binding = "UPLOADS"
+bucket_name = "havennest-applications"
+
+# Free Cloudflare Email Routing send binding. Requires Email Routing enabled on
+# the domain and OWNER_EMAIL verified as a destination address.
+[[send_email]]
+name = "SEND_EMAIL"
+destination_address = "owner@havennest.ca"
+
+# Bind the API to a custom subdomain in production (after `wrangler deploy`):
+#   add an `api` DNS record (proxied) and a route, or use:
+# [[routes]]
+# pattern = "api.havennest.ca"
+# custom_domain = true

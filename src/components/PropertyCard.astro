@@ -1,0 +1,168 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCover } from '../data/photos';
+import { money, bathLabel, num } from '../lib/format';
+
+interface Props {
+  entry: CollectionEntry<'properties'>;
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const cover = getCover(d.gallery, d.coverIndex);
+
+const statusMap = {
+  available: { label: 'Available', cls: 'pill--ok' },
+  pending: { label: 'Application pending', cls: 'pill--warn' },
+  rented: { label: 'Rented', cls: 'pill--muted' },
+} as const;
+const status = statusMap[d.status];
+---
+
+<article class="pcard card" data-reveal>
+  <a class="pcard__media" href={`/properties/${entry.id}`} tabindex="-1" aria-hidden="true">
+    {
+      cover && (
+        <img
+          src={cover.thumb}
+          alt={d.title}
+          width={cover.w}
+          height={cover.h}
+          loading="lazy"
+          decoding="async"
+        />
+      )
+    }
+    <span class:list={['pill', status.cls, 'pcard__status']}>
+      <span class="pill__dot"></span>{status.label}
+    </span>
+  </a>
+
+  <div class="pcard__body">
+    <p class="pcard__type">{d.unitType === 'main' ? 'Main-floor suite' : 'Legal basement suite'}</p>
+    <h3 class="pcard__title">
+      <a href={`/properties/${entry.id}`}>{d.title}</a>
+    </h3>
+
+    <ul class="pcard__specs" aria-label="Unit specifications">
+      <li><strong>{d.beds}</strong> bed</li>
+      <li><strong>{bathLabel(d.baths)}</strong> bath</li>
+      <li><strong>{num(d.sqft)}</strong> sq ft</li>
+    </ul>
+
+    <div class="pcard__foot">
+      <p class="pcard__rent"><span>{money(d.rent)}</span>/mo</p>
+      <a class="pcard__link" href={`/properties/${entry.id}`}>
+        View details
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .pcard {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease);
+  }
+  .pcard:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-2);
+  }
+  .pcard__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--surface-3);
+  }
+  .pcard__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--t-slow) var(--ease);
+  }
+  .pcard:hover .pcard__media img {
+    transform: scale(1.05);
+  }
+  .pcard__status {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+  }
+  .pcard__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.1rem 1.2rem 1.2rem;
+    flex: 1;
+  }
+  .pcard__type {
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+  .pcard__title {
+    font-size: 1.25rem;
+  }
+  .pcard__title a {
+    color: var(--ink);
+  }
+  .pcard__title a:hover {
+    color: var(--gold-deep);
+  }
+  .pcard__specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0.2rem 0 0.6rem;
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+    font-variant-numeric: tabular-nums;
+  }
+  .pcard__specs strong {
+    color: var(--ink);
+    font-weight: 650;
+  }
+  .pcard__foot {
+    margin-top: auto;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .pcard__rent {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .pcard__rent span {
+    color: var(--ink);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  .pcard__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--gold-deep);
+  }
+  .pcard__link svg {
+    transition: transform var(--t) var(--ease);
+  }
+  .pcard:hover .pcard__link svg {
+    transform: translateX(3px);
+  }
+</style>

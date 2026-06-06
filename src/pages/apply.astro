@@ -1,0 +1,615 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import '../styles/apply.css';
+import { site } from '../data/site';
+import { money } from '../lib/format';
+import {
+  STEPS, LEASE_TERMS, PROVINCES, OWN_RENT, EMPLOYMENT_STATUS,
+  HEAR_ABOUT, SMOKING, INITIAL_DOC_TYPES,
+} from '../data/application-schema';
+
+const units = (await getCollection('properties'))
+  .filter((p) => p.data.status !== 'rented')
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((p) => ({ id: p.id, label: p.data.title, rent: p.data.rent, type: p.data.unitType }));
+---
+
+<Base
+  title="Rental Application"
+  description="Apply to rent a brand-new HavenNest suite in Edmonton. Free to apply — no application fee."
+  noindex={true}
+>
+  <section class="apply">
+    <div class="container container-narrow apply__head">
+      <p class="eyebrow">Rental application</p>
+      <h1>Apply to rent with HavenNest</h1>
+      <p class="lead">
+        It takes about 10–15 minutes. Your answers are saved on this device as you go, so you can
+        finish later. <strong>Applying is free</strong> — HavenNest never charges an application fee.
+      </p>
+      <p class="apply__secure">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Submitted over a secure connection. See our <a href="/privacy">Privacy Policy</a> for how
+        your information and documents are handled.
+      </p>
+    </div>
+
+    <div class="container">
+      <div class="wiz" data-wiz>
+        <aside class="wiz__nav" aria-label="Application steps">
+          <div class="wiz__progress" aria-hidden="true"><span class="wiz__progress-bar" data-progress></span></div>
+          <p class="wiz__count">Step <strong data-stepnum>1</strong> of {STEPS.length}</p>
+          <button type="button" class="wiz__toggle" data-steps-toggle aria-expanded="false" aria-controls="wizSteps">
+            <span data-current-title>{STEPS[0].title}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ol class="wiz__steps" id="wizSteps" data-stepper>
+            {STEPS.map((s, i) => (
+              <li>
+                <button type="button" class="wiz__step" data-step-jump={i}>
+                  <span class="wiz__step-num">{i + 1}</span>
+                  <span class="wiz__step-label">{s.title}</span>
+                  <svg class="wiz__step-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </li>
+            ))}
+          </ol>
+        </aside>
+
+        <div class="wiz__main">
+          <form class="appform" id="applyForm" novalidate enctype="multipart/form-data">
+        <!-- ===================== STEP 1: UNIT ===================== -->
+        <section class="step" data-step="0" aria-labelledby="s0h">
+          <h2 id="s0h" class="step__title">Unit &amp; move-in</h2>
+
+          <div class="field">
+            <label for="f-unit">Which unit are you applying for?</label>
+            <select id="f-unit" name="unit" required>
+              <option value="">Choose a unit…</option>
+              {units.map((u) => (
+                <option value={u.id} data-rent={u.rent} data-type={u.type}>{u.label} — {money(u.rent)}/mo</option>
+              ))}
+            </select>
+            <p class="field__hint" data-rent-hint hidden></p>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-movein">Desired move-in date</label>
+              <input id="f-movein" name="moveInDate" type="date" required />
+            </div>
+            <fieldset class="field">
+              <legend>Lease term</legend>
+              <div class="choices choices--compact">
+                {LEASE_TERMS.map((t, i) => (
+                  <label class="choice"><input type="radio" name="leaseTerm" value={t.value} required checked={i === 0} /><span>{t.label}</span></label>
+                ))}
+              </div>
+            </fieldset>
+          </div>
+
+          <fieldset class="field">
+            <legend>Would you like a detached single-car garage? <span class="opt">({money(125)}/mo extra cost)</span></legend>
+            <div class="choices choices--yn">
+              <label class="choice"><input type="radio" name="wantGarage" value="yes" required /><span>Yes</span></label>
+              <label class="choice"><input type="radio" name="wantGarage" value="no" /><span>No</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="f-hear">How did you hear about us? <span class="opt">(optional)</span></label>
+            <select id="f-hear" name="hearAbout">
+              <option value="">Prefer not to say</option>
+              {HEAR_ABOUT.map((h) => <option value={h}>{h}</option>)}
+            </select>
+          </div>
+        </section>
+
+        <!-- ===================== STEP 2: APPLICANT ===================== -->
+        <section class="step" data-step="1" aria-labelledby="s1h" hidden>
+          <h2 id="s1h" class="step__title">About you</h2>
+          <p class="step__intro">You're the primary applicant. Each additional adult (18+) who will co-sign is added in the Occupants step.</p>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-name">Full legal name</label>
+              <input id="f-name" name="fullName" type="text" autocomplete="name" required maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="f-pref">Preferred name <span class="opt">(optional)</span></label>
+              <input id="f-pref" name="preferredName" type="text" maxlength="80" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-dob">Date of birth</label>
+              <input id="f-dob" name="dob" type="date" required data-adult data-picker="dob" />
+              <p class="field__error" data-error-for="dob"></p>
+            </div>
+            <div class="field">
+              <label for="f-phone">Mobile phone</label>
+              <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required data-mask="phone" placeholder="(780) 123-4567" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="160" />
+            </div>
+            <div class="field">
+              <label for="f-email2">Confirm email</label>
+              <input id="f-email2" name="emailConfirm" type="email" required maxlength="160" />
+              <p class="field__error" data-error-for="emailConfirm"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-altphone">Alternate phone <span class="opt">(optional)</span></label>
+            <input id="f-altphone" name="altPhone" type="tel" inputmode="tel" data-mask="phone" placeholder="(780) 123-4567" />
+          </div>
+        </section>
+
+        <!-- ===================== STEP 3: RESIDENCE ===================== -->
+        <section class="step" data-step="2" aria-labelledby="s2h" hidden>
+          <h2 id="s2h" class="step__title">Residence history</h2>
+
+          <div class="field">
+            <label for="f-street">Current street address</label>
+            <input id="f-street" name="currentStreet" type="text" autocomplete="street-address" required maxlength="160" />
+          </div>
+          <div class="field-row field-row--3">
+            <div class="field">
+              <label for="f-city">City</label>
+              <input id="f-city" name="currentCity" type="text" autocomplete="address-level2" required maxlength="80" />
+            </div>
+            <div class="field">
+              <label for="f-prov">Province</label>
+              <select id="f-prov" name="currentProvince" required>
+                {PROVINCES.map((p) => <option value={p} selected={p === 'AB'}>{p}</option>)}
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-postal">Postal code</label>
+              <input id="f-postal" name="currentPostal" type="text" autocomplete="postal-code" required data-mask="postal" placeholder="A1A 1A1" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <fieldset class="field">
+              <legend>Do you rent or own here?</legend>
+              <div class="choices choices--compact">
+                {OWN_RENT.map((o) => (
+                  <label class="choice"><input type="radio" name="ownRent" value={o.value} required /><span>{o.label}</span></label>
+                ))}
+              </div>
+            </fieldset>
+            <div class="field">
+              <label for="f-movein-cur">Move-in date here</label>
+              <input id="f-movein-cur" name="currentMoveIn" type="date" required data-picker="past" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-reason">Reason for leaving</label>
+            <textarea id="f-reason" name="reasonLeaving" rows="3" required maxlength="500"></textarea>
+          </div>
+
+          <!-- landlord block, shown when renting -->
+          <div data-show-when="ownRent=rent" class="subgroup">
+            <h3 class="subgroup__title">Current landlord</h3>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-llrent">Current monthly rent</label>
+                <input id="f-llrent" name="currentRent" type="text" inputmode="numeric" data-mask="money" placeholder="$1,500" />
+              </div>
+              <div class="field">
+                <label for="f-llname">Landlord / property manager</label>
+                <input id="f-llname" name="landlordName" type="text" maxlength="120" required />
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-llphone">Landlord phone</label>
+                <input id="f-llphone" name="landlordPhone" type="tel" inputmode="tel" data-mask="phone" placeholder="(780) 123-4567" required />
+              </div>
+              <div class="field">
+                <label for="f-llemail">Landlord email <span class="opt">(optional)</span></label>
+                <input id="f-llemail" name="landlordEmail" type="email" maxlength="160" />
+              </div>
+            </div>
+            <fieldset class="field">
+              <legend>May we contact your current landlord?</legend>
+              <div class="choices choices--yn">
+                <label class="choice"><input type="radio" name="canContactLandlord" value="yes" required /><span>Yes</span></label>
+                <label class="choice"><input type="radio" name="canContactLandlord" value="not-yet" /><span>Not yet — I haven't given notice</span></label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="subgroup">
+            <h3 class="subgroup__title">Previous residences</h3>
+            <p class="field__hint" style="margin-bottom:0.75rem">Please add enough address history to cover the <strong>last 5 years</strong>. Add a row for each previous home.</p>
+            <div class="repeat" data-residences></div>
+            <button type="button" class="btn btn--secondary btn--sm" data-add-residence>+ Add previous residence</button>
+          </div>
+
+          <fieldset class="field">
+            <legend>Have you ever been evicted or given notice for cause?</legend>
+            <div class="choices choices--yn">
+              <label class="choice"><input type="radio" name="evicted" value="yes" required /><span>Yes</span></label>
+              <label class="choice"><input type="radio" name="evicted" value="no" /><span>No</span></label>
+            </div>
+          </fieldset>
+          <div class="field" data-show-when="evicted=yes">
+            <label for="f-evict">Please explain</label>
+            <textarea id="f-evict" name="evictedExplain" rows="2" maxlength="500" required></textarea>
+          </div>
+
+          <fieldset class="field">
+            <legend>Have you ever broken a lease early?</legend>
+            <div class="choices choices--yn">
+              <label class="choice"><input type="radio" name="brokeLease" value="yes" required /><span>Yes</span></label>
+              <label class="choice"><input type="radio" name="brokeLease" value="no" /><span>No</span></label>
+            </div>
+          </fieldset>
+          <div class="field" data-show-when="brokeLease=yes">
+            <label for="f-broke">Please explain</label>
+            <textarea id="f-broke" name="brokeLeaseExplain" rows="2" maxlength="500" required></textarea>
+          </div>
+        </section>
+
+        <!-- ===================== STEP 4: EMPLOYMENT ===================== -->
+        <section class="step" data-step="3" aria-labelledby="s3h" hidden>
+          <h2 id="s3h" class="step__title">Employment &amp; income</h2>
+          <p class="step__intro">We accept income from <strong>any lawful source</strong> — employment, self-employment, pension, support payments, AISH or other benefits.</p>
+
+          <div class="field">
+            <label for="f-empstatus">Employment status</label>
+            <select id="f-empstatus" name="employmentStatus" required>
+              <option value="">Choose…</option>
+              {EMPLOYMENT_STATUS.map((e) => <option value={e.value}>{e.label}</option>)}
+            </select>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-employer">Employer / business name <span class="opt">(if applicable)</span></label>
+              <input id="f-employer" name="employer" type="text" maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="f-jobtitle">Job title / occupation <span class="opt">(optional)</span></label>
+              <input id="f-jobtitle" name="jobTitle" type="text" maxlength="120" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-emplen">Time with current employer <span class="opt">(optional)</span></label>
+              <select id="f-emplen" name="lengthWithEmployer">
+                <option value="">Choose…</option>
+                <option>Less than 6 months</option>
+                <option>6–12 months</option>
+                <option>1–2 years</option>
+                <option>2–5 years</option>
+                <option>5+ years</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-empphone">Employer / supervisor phone <span class="opt">(optional)</span></label>
+              <input id="f-empphone" name="employerPhone" type="tel" inputmode="tel" data-mask="phone" placeholder="(780) 123-4567" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-income">Gross monthly income (all sources)</label>
+              <input id="f-income" name="grossMonthlyIncome" type="text" inputmode="numeric" data-mask="money" required placeholder="$4,500" />
+            </div>
+            <div class="field">
+              <label for="f-income2">Additional household income <span class="opt">(optional)</span></label>
+              <input id="f-income2" name="additionalIncome" type="text" inputmode="numeric" data-mask="money" placeholder="$0" />
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== STEP 5: OCCUPANTS ===================== -->
+        <section class="step" data-step="4" aria-labelledby="s4h" hidden>
+          <h2 id="s4h" class="step__title">Occupants</h2>
+          <p class="step__intro">List <strong>everyone</strong> who will live in the unit, including yourself. For each adult (18+), tell us whether they'll co-sign the lease. This is used only to confirm who is on the lease and a neutral occupancy count — never to decline families.</p>
+
+          <div class="repeat" data-occupants></div>
+          <button type="button" class="btn btn--secondary repeat__add" data-add-occupant>+ Add occupant</button>
+          <p class="field__error" data-error-for="occupants"></p>
+        </section>
+
+        <!-- ===================== STEP 6: BACKGROUND ===================== -->
+        <section class="step" data-step="5" aria-labelledby="s5h" hidden>
+          <h2 id="s5h" class="step__title">Pets, vehicles &amp; more</h2>
+
+          <fieldset class="field">
+            <legend>Will any pets live in the unit?</legend>
+            <div class="choices choices--yn">
+              <label class="choice"><input type="radio" name="hasPets" value="yes" required /><span>Yes</span></label>
+              <label class="choice"><input type="radio" name="hasPets" value="no" /><span>No</span></label>
+            </div>
+          </fieldset>
+          <div data-show-when="hasPets=yes" class="subgroup">
+            <div class="repeat" data-pets></div>
+            <button type="button" class="btn btn--secondary btn--sm" data-add-pet>+ Add pet</button>
+            <fieldset class="field" style="margin-top:1rem">
+              <legend>Is any animal a certified service / assistance animal?</legend>
+              <p class="field__hint">Service / assistance animals are not pets — there is no pet deposit or fee, and we won't ask about the disability.</p>
+              <div class="choices choices--yn">
+                <label class="choice"><input type="radio" name="serviceAnimal" value="yes" /><span>Yes</span></label>
+                <label class="choice"><input type="radio" name="serviceAnimal" value="no" /><span>No</span></label>
+              </div>
+            </fieldset>
+          </div>
+
+          <fieldset class="field">
+            <legend>Smoking / vaping</legend>
+            <div class="choices">
+              {SMOKING.map((s) => (
+                <label class="choice"><input type="radio" name="smoking" value={s.value} required /><span>{s.label}</span></label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend>Vehicles to be parked <span class="opt">(optional)</span></legend>
+            <div class="repeat" data-vehicles></div>
+            <button type="button" class="btn btn--secondary btn--sm" data-add-vehicle>+ Add vehicle</button>
+          </fieldset>
+
+          <div class="field">
+            <label for="f-bankruptcy">Have you declared bankruptcy or filed a consumer proposal? <span class="opt">(optional)</span></label>
+            <select id="f-bankruptcy" name="bankruptcy">
+              <option value="prefer-not">Prefer not to say</option>
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
+
+          <fieldset class="field">
+            <legend>Will anyone help guarantee the rent (a guarantor / co-signer)?</legend>
+            <div class="choices choices--yn">
+              <label class="choice"><input type="radio" name="hasGuarantor" value="yes" required /><span>Yes</span></label>
+              <label class="choice"><input type="radio" name="hasGuarantor" value="no" /><span>No</span></label>
+            </div>
+          </fieldset>
+          <div data-show-when="hasGuarantor=yes" class="subgroup">
+            <h3 class="subgroup__title">Guarantor contact</h3>
+            <div class="field-row field-row--3">
+              <div class="field"><label for="f-gname">Name</label><input id="f-gname" name="guarantorName" type="text" maxlength="120" required /></div>
+              <div class="field"><label for="f-gphone">Phone</label><input id="f-gphone" name="guarantorPhone" type="tel" data-mask="phone" placeholder="(780) 123-4567" required /></div>
+              <div class="field"><label for="f-gemail">Email</label><input id="f-gemail" name="guarantorEmail" type="email" maxlength="160" required /></div>
+            </div>
+          </div>
+
+          <h3 class="subgroup__title">Emergency contacts</h3>
+          <p class="field__hint" style="margin-bottom:0.6rem">Add at least one emergency contact. You can add more than one.</p>
+          <div class="repeat" data-emergency></div>
+          <button type="button" class="btn btn--secondary btn--sm" data-add-emergency>+ Add emergency contact</button>
+          <p class="field__error" data-error-for="emergency"></p>
+        </section>
+
+        <!-- ===================== STEP 7: DOCUMENTS ===================== -->
+        <section class="step" data-step="6" aria-labelledby="s6h" hidden>
+          <h2 id="s6h" class="step__title">Documents</h2>
+          <p class="step__intro">
+            Upload your proof of income as PDF, JPG, PNG or WebP (max 10&nbsp;MB each). Files are
+            transmitted securely; see our <a href="/privacy">Privacy Policy</a>.
+          </p>
+
+          {INITIAL_DOC_TYPES.map((d) => (
+            <div class="docblock">
+              <div class="docblock__head">
+                <h3>{d.label}{d.required && <span class="req">*</span>}</h3>
+                <p>{d.help}</p>
+              </div>
+              <div class="dropzone" data-doc={d.key} data-max={d.max}>
+                <input
+                  type="file"
+                  id={`doc-${d.key}`}
+                  accept=".pdf,.jpg,.jpeg,.png,.webp"
+                  multiple={d.max > 1}
+                  hidden
+                />
+                <label for={`doc-${d.key}`} class="dropzone__drop" data-droptarget>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span><strong>Tap to upload</strong> or drag &amp; drop</span>
+                  <span class="dropzone__meta">PDF, JPG, PNG · up to {d.max} file{d.max > 1 ? 's' : ''}</span>
+                </label>
+              </div>
+              <ul class="filelist" data-doc-list={d.key}></ul>
+              <p class="field__error" data-error-for={`doc-${d.key}`}></p>
+            </div>
+          ))}
+
+          <div class="apply__secure" style="margin-top:0.5rem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>
+              <strong>No ID or credit report needed yet.</strong> If your application is shortlisted,
+              we'll send you a secure link to upload your government photo ID and a credit report —
+              so your most sensitive documents are only shared if we move forward together.
+            </span>
+          </div>
+        </section>
+
+        <!-- ===================== STEP 8: CONSENT ===================== -->
+        <section class="step" data-step="7" aria-labelledby="s7h" hidden>
+          <h2 id="s7h" class="step__title">Review &amp; consent</h2>
+
+          <div class="review" data-review></div>
+
+          <div class="consent">
+            <label class="consent__item">
+              <input type="checkbox" name="infoTrue" required />
+              <span>I certify that the information I've provided is true, accurate and complete to the best of my knowledge, and I understand that false information may result in my application being declined.</span>
+            </label>
+            <label class="consent__item">
+              <input type="checkbox" name="noFeeAck" required />
+              <span>I understand that HavenNest does not charge a rental application fee.</span>
+            </label>
+            <label class="consent__item">
+              <input type="checkbox" name="creditConsent" required />
+              <span><strong>Credit &amp; background check authorization.</strong> I authorize HavenNest and its authorized screening agents to obtain a consumer credit report and to verify my rental history, employment, income and references for the purpose of assessing my application. I understand my full legal name and date of birth are sufficient and that no SIN is required.</span>
+            </label>
+            <label class="consent__item">
+              <input type="checkbox" name="privacyConsent" required />
+              <span><strong>Privacy consent (PIPA / PIPEDA).</strong> I consent to HavenNest collecting, using and retaining this information to evaluate my application and, if approved, administer the tenancy, and to securely destroying it if I'm not approved. I've read the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+            </label>
+
+            <div class="field">
+              <label for="f-sign">Electronic signature — type your full legal name</label>
+              <input id="f-sign" name="signature" type="text" required maxlength="120" autocomplete="off" placeholder="Your full legal name" />
+              <p class="field__hint">By typing your name and submitting, you are signing this application electronically as of today's date. Each adult (18+) who co-signs will sign separately at lease signing.</p>
+              <p class="field__error" data-error-for="signature"></p>
+            </div>
+          </div>
+
+          <!-- honeypot -->
+          <div class="hp" aria-hidden="true">
+            <label for="f-website">Website</label>
+            <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="turnstile-wrap">
+            <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-theme="light" data-action="apply"></div>
+          </div>
+        </section>
+
+        <!-- NAV -->
+        <div class="appform__nav">
+          <button type="button" class="btn btn--secondary" data-prev hidden>← Back</button>
+          <div class="appform__navspace"></div>
+          <button type="button" class="btn btn--primary" data-next>Continue →</button>
+          <button type="submit" class="btn btn--primary btn--lg" data-submit hidden>Submit application</button>
+        </div>
+        <p class="form-status" role="status" aria-live="polite" data-status></p>
+        <button type="button" class="appform__reset" data-reset>Clear saved progress &amp; start over</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success" data-success hidden>
+        <div class="success__icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Application received — thank you!</h2>
+        <p class="lead">We've received your application and proof of income. Our team will review it and get back to you by email. If you're shortlisted, we'll send a secure link to upload your government ID and credit report. Questions? <a href="/contact">Contact us</a>.</p>
+        <p class="success__ref" data-success-ref></p>
+        <a class="btn btn--primary btn--lg" href="/">Back to home</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Repeatable row templates -->
+  <template data-tpl="occupant">
+    <fieldset class="rcard" data-occupant-card>
+      <div class="rcard__head">
+        <span class="rcard__title">Occupant <span data-occ-index>1</span></span>
+        <button type="button" class="rcard__remove" data-remove aria-label="Remove occupant">Remove</button>
+      </div>
+      <div class="field-row field-row--3">
+        <div class="field"><label>Full legal name<input type="text" data-occ="fullName" maxlength="120" required /></label></div>
+        <div class="field"><label>Date of birth<input type="date" data-occ="dob" required data-picker="dob" /></label></div>
+        <div class="field">
+          <label>Relationship
+            <select data-occ="relationship" required>
+              <option value="">Choose…</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="field" data-occ-otherrel hidden>
+        <label>Please specify relationship<input type="text" data-occ="relationshipOther" maxlength="60" /></label>
+      </div>
+      <div class="rcard__age" data-occ-age hidden></div>
+      <div class="rcard__cosign" data-occ-cosign hidden>
+        <fieldset class="field">
+          <legend>This occupant is 18+. Will they co-sign the lease?</legend>
+          <div class="choices choices--yn">
+            <label class="choice"><input type="radio" data-occ="willCosign" value="yes" /><span>Yes, co-signer</span></label>
+            <label class="choice"><input type="radio" data-occ="willCosign" value="no" /><span>No</span></label>
+          </div>
+        </fieldset>
+        <div class="rcard__cosign-fields" data-occ-cosign-fields hidden>
+          <p class="field__hint">Each co-signing adult is screened like a primary applicant and will provide their own consent and signature at lease signing.</p>
+          <div class="field-row field-row--3">
+            <div class="field"><label>Co-signer email<input type="email" data-occ="cosignEmail" maxlength="160" /></label></div>
+            <div class="field"><label>Co-signer mobile<input type="tel" data-occ="cosignPhone" data-mask="phone" placeholder="(780) 123-4567" /></label></div>
+            <div class="field"><label>Co-signer gross monthly income<input type="text" inputmode="numeric" data-occ="cosignIncome" data-mask="money" placeholder="$0" /></label></div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </template>
+
+  <template data-tpl="pet">
+    <fieldset class="rcard rcard--inline" data-pet-card>
+      <div class="field-row field-row--4">
+        <div class="field"><label>Type<input type="text" data-pet="type" placeholder="Dog, cat…" maxlength="40" /></label></div>
+        <div class="field"><label>Breed<input type="text" data-pet="breed" maxlength="60" /></label></div>
+        <div class="field"><label>Weight (lbs)<input type="number" data-pet="weight" min="0" max="400" /></label></div>
+        <div class="field"><label>Age (yrs)<input type="number" data-pet="age" min="0" max="40" /></label></div>
+      </div>
+      <label class="rcard__check"><input type="checkbox" data-pet="fixed" /> Spayed / neutered</label>
+      <button type="button" class="rcard__remove" data-remove aria-label="Remove pet">Remove</button>
+    </fieldset>
+  </template>
+
+  <template data-tpl="vehicle">
+    <fieldset class="rcard rcard--inline" data-vehicle-card>
+      <div class="field-row field-row--3">
+        <div class="field"><label>Make &amp; model<input type="text" data-veh="makeModel" maxlength="80" /></label></div>
+        <div class="field"><label>Licence plate<input type="text" data-veh="plate" maxlength="12" data-uppercase /></label></div>
+        <div class="field">
+          <label class="rcard__check" style="margin-top:1.9rem"><input type="checkbox" data-veh="parkingNeeded" /> Needs a parking spot</label>
+        </div>
+      </div>
+      <button type="button" class="rcard__remove" data-remove aria-label="Remove vehicle">Remove</button>
+    </fieldset>
+  </template>
+
+  <template data-tpl="residence">
+    <fieldset class="rcard" data-residence-card>
+      <div class="rcard__head">
+        <span class="rcard__title">Previous residence</span>
+        <button type="button" class="rcard__remove" data-remove aria-label="Remove residence">Remove</button>
+      </div>
+      <div class="field"><label>Street address<input type="text" data-res="street" maxlength="160" /></label></div>
+      <div class="field-row field-row--3">
+        <div class="field"><label>City<input type="text" data-res="city" maxlength="80" /></label></div>
+        <div class="field"><label>Province
+          <select data-res="province">{PROVINCES.map((p) => <option value={p} selected={p === 'AB'}>{p}</option>)}</select>
+        </label></div>
+        <div class="field"><label>Postal code<input type="text" data-res="postal" data-mask="postal" placeholder="A1A 1A1" /></label></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Moved in<input type="date" data-res="from" data-picker="past" /></label></div>
+        <div class="field"><label>Moved out<input type="date" data-res="to" data-picker="past" /></label></div>
+      </div>
+    </fieldset>
+  </template>
+
+  <template data-tpl="emergency">
+    <fieldset class="rcard rcard--inline" data-emergency-card>
+      <div class="field-row field-row--3">
+        <div class="field"><label>Name<input type="text" data-emerg="name" maxlength="120" required /></label></div>
+        <div class="field"><label>Relationship<input type="text" data-emerg="relationship" maxlength="60" required /></label></div>
+        <div class="field"><label>Phone<input type="tel" data-emerg="phone" data-mask="phone" placeholder="(780) 123-4567" required /></label></div>
+      </div>
+      <button type="button" class="rcard__remove" data-remove aria-label="Remove emergency contact">Remove</button>
+    </fieldset>
+  </template>
+
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script>
+    import '../scripts/apply';
+  </script>
+</Base>

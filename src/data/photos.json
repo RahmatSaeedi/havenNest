@@ -1,0 +1,455 @@
+{
+  "exterior": [
+    {
+      "thumb": "/images/properties/exterior/exterior-01-thumb.webp",
+      "full": "/images/properties/exterior/exterior-01.webp",
+      "w": 2000,
+      "h": 1334,
+      "alt": "HavenNest fourplex exterior, 9911 158 Street NW, Edmonton — view 1"
+    },
+    {
+      "thumb": "/images/properties/exterior/exterior-02-thumb.webp",
+      "full": "/images/properties/exterior/exterior-02.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest fourplex exterior, 9911 158 Street NW, Edmonton — view 2"
+    },
+    {
+      "thumb": "/images/properties/exterior/exterior-03-thumb.webp",
+      "full": "/images/properties/exterior/exterior-03.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest fourplex exterior, 9911 158 Street NW, Edmonton — view 3"
+    },
+    {
+      "thumb": "/images/properties/exterior/exterior-04-thumb.webp",
+      "full": "/images/properties/exterior/exterior-04.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest fourplex exterior, 9911 158 Street NW, Edmonton — view 4"
+    },
+    {
+      "thumb": "/images/properties/exterior/exterior-05-thumb.webp",
+      "full": "/images/properties/exterior/exterior-05.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest fourplex exterior, 9911 158 Street NW, Edmonton — view 5"
+    },
+    {
+      "thumb": "/images/properties/exterior/exterior-06-thumb.webp",
+      "full": "/images/properties/exterior/exterior-06.webp",
+      "w": 2000,
+      "h": 1510,
+      "alt": "HavenNest fourplex exterior, 9911 158 Street NW, Edmonton — view 6"
+    },
+    {
+      "thumb": "/images/properties/exterior/exterior-07-thumb.webp",
+      "full": "/images/properties/exterior/exterior-07.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest fourplex exterior, 9911 158 Street NW, Edmonton — view 7"
+    }
+  ],
+  "main": [
+    {
+      "thumb": "/images/properties/main/main-01-thumb.webp",
+      "full": "/images/properties/main/main-01.webp",
+      "w": 1024,
+      "h": 682,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 1"
+    },
+    {
+      "thumb": "/images/properties/main/main-02-thumb.webp",
+      "full": "/images/properties/main/main-02.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 2"
+    },
+    {
+      "thumb": "/images/properties/main/main-03-thumb.webp",
+      "full": "/images/properties/main/main-03.webp",
+      "w": 2000,
+      "h": 1332,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 3"
+    },
+    {
+      "thumb": "/images/properties/main/main-04-thumb.webp",
+      "full": "/images/properties/main/main-04.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 4"
+    },
+    {
+      "thumb": "/images/properties/main/main-05-thumb.webp",
+      "full": "/images/properties/main/main-05.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 5"
+    },
+    {
+      "thumb": "/images/properties/main/main-06-thumb.webp",
+      "full": "/images/properties/main/main-06.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 6"
+    },
+    {
+      "thumb": "/images/properties/main/main-07-thumb.webp",
+      "full": "/images/properties/main/main-07.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 7"
+    },
+    {
+      "thumb": "/images/properties/main/main-08-thumb.webp",
+      "full": "/images/properties/main/main-08.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 8"
+    },
+    {
+      "thumb": "/images/properties/main/main-09-thumb.webp",
+      "full": "/images/properties/main/main-09.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 9"
+    },
+    {
+      "thumb": "/images/properties/main/main-10-thumb.webp",
+      "full": "/images/properties/main/main-10.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 10"
+    },
+    {
+      "thumb": "/images/properties/main/main-11-thumb.webp",
+      "full": "/images/properties/main/main-11.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 11"
+    },
+    {
+      "thumb": "/images/properties/main/main-12-thumb.webp",
+      "full": "/images/properties/main/main-12.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 12"
+    },
+    {
+      "thumb": "/images/properties/main/main-13-thumb.webp",
+      "full": "/images/properties/main/main-13.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 13"
+    },
+    {
+      "thumb": "/images/properties/main/main-14-thumb.webp",
+      "full": "/images/properties/main/main-14.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 14"
+    },
+    {
+      "thumb": "/images/properties/main/main-15-thumb.webp",
+      "full": "/images/properties/main/main-15.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 15"
+    },
+    {
+      "thumb": "/images/properties/main/main-16-thumb.webp",
+      "full": "/images/properties/main/main-16.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 16"
+    },
+    {
+      "thumb": "/images/properties/main/main-17-thumb.webp",
+      "full": "/images/properties/main/main-17.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 17"
+    },
+    {
+      "thumb": "/images/properties/main/main-18-thumb.webp",
+      "full": "/images/properties/main/main-18.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 18"
+    },
+    {
+      "thumb": "/images/properties/main/main-19-thumb.webp",
+      "full": "/images/properties/main/main-19.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 19"
+    },
+    {
+      "thumb": "/images/properties/main/main-20-thumb.webp",
+      "full": "/images/properties/main/main-20.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 20"
+    },
+    {
+      "thumb": "/images/properties/main/main-21-thumb.webp",
+      "full": "/images/properties/main/main-21.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 21"
+    },
+    {
+      "thumb": "/images/properties/main/main-22-thumb.webp",
+      "full": "/images/properties/main/main-22.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 22"
+    },
+    {
+      "thumb": "/images/properties/main/main-23-thumb.webp",
+      "full": "/images/properties/main/main-23.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 23"
+    },
+    {
+      "thumb": "/images/properties/main/main-24-thumb.webp",
+      "full": "/images/properties/main/main-24.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 24"
+    },
+    {
+      "thumb": "/images/properties/main/main-25-thumb.webp",
+      "full": "/images/properties/main/main-25.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest main-floor suite interior — brand-new finishes, view 25"
+    }
+  ],
+  "basement": [
+    {
+      "thumb": "/images/properties/basement/basement-01-thumb.webp",
+      "full": "/images/properties/basement/basement-01.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 1"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-02-thumb.webp",
+      "full": "/images/properties/basement/basement-02.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 2"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-03-thumb.webp",
+      "full": "/images/properties/basement/basement-03.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 3"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-04-thumb.webp",
+      "full": "/images/properties/basement/basement-04.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 4"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-05-thumb.webp",
+      "full": "/images/properties/basement/basement-05.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 5"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-06-thumb.webp",
+      "full": "/images/properties/basement/basement-06.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 6"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-07-thumb.webp",
+      "full": "/images/properties/basement/basement-07.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 7"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-08-thumb.webp",
+      "full": "/images/properties/basement/basement-08.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 8"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-09-thumb.webp",
+      "full": "/images/properties/basement/basement-09.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 9"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-10-thumb.webp",
+      "full": "/images/properties/basement/basement-10.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 10"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-11-thumb.webp",
+      "full": "/images/properties/basement/basement-11.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 11"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-12-thumb.webp",
+      "full": "/images/properties/basement/basement-12.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 12"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-13-thumb.webp",
+      "full": "/images/properties/basement/basement-13.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 13"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-14-thumb.webp",
+      "full": "/images/properties/basement/basement-14.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 14"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-15-thumb.webp",
+      "full": "/images/properties/basement/basement-15.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 15"
+    },
+    {
+      "thumb": "/images/properties/basement/basement-16-thumb.webp",
+      "full": "/images/properties/basement/basement-16.webp",
+      "w": 2000,
+      "h": 1333,
+      "alt": "HavenNest legal basement suite interior — brand-new finishes, view 16"
+    }
+  ],
+  "construction": [
+    {
+      "thumb": "/images/properties/construction/construction-01-thumb.webp",
+      "full": "/images/properties/construction/construction-01.webp",
+      "w": 1536,
+      "h": 2048,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 1"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-02-thumb.webp",
+      "full": "/images/properties/construction/construction-02.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 2"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-03-thumb.webp",
+      "full": "/images/properties/construction/construction-03.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 3"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-04-thumb.webp",
+      "full": "/images/properties/construction/construction-04.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 4"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-05-thumb.webp",
+      "full": "/images/properties/construction/construction-05.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 5"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-06-thumb.webp",
+      "full": "/images/properties/construction/construction-06.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 6"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-07-thumb.webp",
+      "full": "/images/properties/construction/construction-07.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 7"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-08-thumb.webp",
+      "full": "/images/properties/construction/construction-08.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 8"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-09-thumb.webp",
+      "full": "/images/properties/construction/construction-09.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 9"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-10-thumb.webp",
+      "full": "/images/properties/construction/construction-10.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 10"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-11-thumb.webp",
+      "full": "/images/properties/construction/construction-11.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 11"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-12-thumb.webp",
+      "full": "/images/properties/construction/construction-12.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 12"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-13-thumb.webp",
+      "full": "/images/properties/construction/construction-13.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 13"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-14-thumb.webp",
+      "full": "/images/properties/construction/construction-14.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 14"
+    },
+    {
+      "thumb": "/images/properties/construction/construction-15-thumb.webp",
+      "full": "/images/properties/construction/construction-15.webp",
+      "w": 2000,
+      "h": 1500,
+      "alt": "HavenNest construction progress at 9911 158 Street NW — stage 15"
+    }
+  ],
+  "video": {
+    "src": "/images/properties/construction/walkthrough.mp4",
+    "poster": "/images/properties/construction/construction-01.webp"
+  }
+}

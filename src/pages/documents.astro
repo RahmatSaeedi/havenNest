@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/apply.css';
+import { site } from '../data/site';
+import { SHORTLIST_DOC_TYPES } from '../data/application-schema';
+---
+
+<Base
+  title="Upload your documents"
+  description="Securely upload your government ID and credit report for your HavenNest rental application."
+  noindex={true}
+>
+  <section class="apply">
+    <div class="container container-narrow">
+      <p class="eyebrow">Secure document upload</p>
+      <h1 data-greeting>Upload your documents</h1>
+      <p class="lead">
+        Thanks for being shortlisted! Please upload your government photo ID and a recent credit
+        report so we can finalize your application. Files are transmitted securely — see our
+        <a href="/privacy">Privacy Policy</a>.
+      </p>
+
+      <!-- invalid / expired link -->
+      <div class="docs-invalid card" data-invalid hidden>
+        <h2>This link isn't valid</h2>
+        <p>This secure upload link is invalid or has expired. Please <a href="/contact">contact us</a> and we'll send you a fresh one.</p>
+      </div>
+
+      <form class="appform" id="docsForm" hidden novalidate>
+        {SHORTLIST_DOC_TYPES.map((d) => (
+          <div class="docblock">
+            <div class="docblock__head">
+              <h3>{d.label}<span class="req">*</span></h3>
+              <p>{d.help}</p>
+            </div>
+            <div class="dropzone" data-doc={d.key} data-max={d.max}>
+              <input type="file" id={`doc-${d.key}`} accept=".pdf,.jpg,.jpeg,.png,.webp" multiple={d.max > 1} hidden />
+              <label for={`doc-${d.key}`} class="dropzone__drop" data-droptarget>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span><strong>Tap to upload</strong> or drag &amp; drop</span>
+                <span class="dropzone__meta">PDF, JPG, PNG · up to {d.max} file{d.max > 1 ? 's' : ''}</span>
+              </label>
+            </div>
+            <ul class="filelist" data-doc-list={d.key}></ul>
+            <p class="field__error" data-error-for={`doc-${d.key}`}></p>
+          </div>
+        ))}
+
+        <div class="consent" style="margin-top:1rem">
+          <label class="consent__item">
+            <input type="checkbox" name="docsConsent" required />
+            <span>These documents are mine and I authorize HavenNest to use them to verify my rental application, in line with the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+          </label>
+        </div>
+
+        <div class="hp" aria-hidden="true">
+          <label for="d-website">Website</label>
+          <input id="d-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="turnstile-wrap">
+          <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-theme="light" data-action="documents"></div>
+        </div>
+
+        <div class="appform__nav">
+          <div class="appform__navspace"></div>
+          <button type="submit" class="btn btn--primary btn--lg" data-submit>Submit documents</button>
+        </div>
+        <p class="form-status" role="status" aria-live="polite" data-status></p>
+      </form>
+
+      <div class="success" data-success hidden>
+        <div class="success__icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Documents received — thank you!</h2>
+        <p class="lead">We've securely received your documents and will be in touch soon. Questions? <a href="/contact">Contact us</a>.</p>
+        <a class="btn btn--primary btn--lg" href="/">Back to home</a>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script>
+    import '../scripts/documents';
+  </script>
+</Base>
+
+<style>
+  .docs-invalid {
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .docs-invalid h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+  }
+</style>
