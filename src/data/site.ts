@@ -33,7 +33,7 @@ export const site = {
     province: 'AB',
     provinceLong: 'Alberta',
     country: 'Canada',
-    postal: '', // TODO(owner): add postal code
+    postal: 'T5P2X6', // TODO(owner): add postal code
     // Used for the static map link/embed.
     mapsQuery: '9911 158 Street NW, Edmonton, AB',
   },

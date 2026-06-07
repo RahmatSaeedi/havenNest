@@ -21,7 +21,6 @@ npm-debug.log*
 *.local
 .env
 .env.*
-*.md
 
 # NOTE: web-optimized images in public/images/** and brand favicons ARE committed
 # (generated locally via `npm run assets`) so CI only needs `astro build`.
