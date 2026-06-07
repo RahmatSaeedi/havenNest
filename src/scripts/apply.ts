@@ -210,6 +210,23 @@ function initApply(form: HTMLFormElement) {
   const vehWrap = $('[data-vehicles]', form) as HTMLElement;
   const resWrap = $('[data-residences]', form) as HTMLElement;
   const emergWrap = $('[data-emergency]', form) as HTMLElement;
+  let occUid = 0;
+
+  /** Set a value on an enhanced (Year/Month/Day) date field within a scope. */
+  function setCardDate(scope: ParentNode, iso: string) {
+    if (!iso) return;
+    const [Y, M, D] = iso.split('-');
+    const y = scope.querySelector<HTMLSelectElement>('.datesel--year');
+    const m = scope.querySelector<HTMLSelectElement>('.datesel--month');
+    const d = scope.querySelector<HTMLSelectElement>('.datesel--day');
+    if (!y || !m || !d) return;
+    y.value = Y;
+    y.dispatchEvent(new Event('change'));
+    m.value = M;
+    m.dispatchEvent(new Event('change'));
+    d.value = D;
+    d.dispatchEvent(new Event('change'));
+  }
 
   function tpl(name: string): HTMLElement {
     const t = document.querySelector<HTMLTemplateElement>(`template[data-tpl="${name}"]`)!;
@@ -234,6 +251,10 @@ function initApply(form: HTMLFormElement) {
   }
 
   function wireOccupant(card: HTMLElement) {
+    // Radios must share a NAME to be mutually exclusive; give each card a unique one.
+    const uid = String(++occUid);
+    $$('[data-occ="willCosign"]', card).forEach((r) => ((r as HTMLInputElement).name = `occ-cosign-${uid}`));
+
     const rel = $('[data-occ="relationship"]', card) as HTMLSelectElement;
     const otherWrap = $('[data-occ-otherrel]', card) as HTMLElement;
     const otherInput = $('[data-occ="relationshipOther"]', card) as HTMLInputElement;
@@ -311,6 +332,25 @@ function initApply(form: HTMLFormElement) {
     }
     wireOccupant(card);
     renumberOccupants();
+  }
+
+  /** Auto-fill the first occupant ("you") from the About You step, if untouched. */
+  function prefillSelfOccupant() {
+    const first = occWrap.querySelector('[data-occupant-card]') as HTMLElement | null;
+    if (!first) return;
+    const nameEl = first.querySelector('[data-occ="fullName"]') as HTMLInputElement | null;
+    if (!nameEl || nameEl.value.trim()) return; // already filled or user-edited
+    const appName = (form.elements.namedItem('fullName') as HTMLInputElement)?.value.trim() ?? '';
+    const appDob = (form.elements.namedItem('dob') as HTMLInputElement)?.value ?? '';
+    if (!appName && !appDob) return;
+    if (appName) nameEl.value = appName;
+    const relSel = first.querySelector('[data-occ="relationship"]') as HTMLSelectElement | null;
+    if (relSel && !relSel.value) {
+      relSel.value = 'Self';
+      relSel.dispatchEvent(new Event('change'));
+    }
+    if (appDob) setCardDate(first, appDob);
+    save();
   }
 
   function addPet(data?: Record<string, any>) {
@@ -484,6 +524,7 @@ function initApply(form: HTMLFormElement) {
     const last = current === steps.length - 1;
     nextBtn.hidden = last;
     submitBtn.hidden = !last;
+    if (current === 4) prefillSelfOccupant();
     if (last) buildReview();
     if (focus) {
       const h = $('.step__title', steps[current]) as HTMLElement;

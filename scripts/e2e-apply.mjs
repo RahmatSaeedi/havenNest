@@ -9,7 +9,7 @@
 import { chromium } from 'playwright-core';
 
 const CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const BASE = 'http://localhost:4321';
+const BASE = process.env.BASE || 'http://localhost:4321';
 const shot = (name) => `c:\\Users\\rahmat\\AI\\HavenNest Corp\\_shots\\${name}`;
 
 const tinyPdf = Buffer.from('%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF', 'utf8');
