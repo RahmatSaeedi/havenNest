@@ -1,7 +1,7 @@
 ---
-title: "Basement Suite — C"
+title: "Basement Suite — Unit 3B"
 unitType: basement
-unitLabel: "Basement Suite C"
+unitLabel: "Basement Suite 3b"
 status: available
 beds: 2
 baths: 1

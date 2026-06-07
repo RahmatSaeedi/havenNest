@@ -13,7 +13,7 @@ const minRent = Math.min(...properties.map((p) => p.data.rent));
 const mainCount = properties.filter((p) => p.data.unitType === 'main').length;
 const bsmtCount = properties.filter((p) => p.data.unitType === 'basement').length;
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.property.mapsQuery)}`;
-const garagePrice = 125;
+const garagePrice = 100;
 ---
 
 <Base

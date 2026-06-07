@@ -6,8 +6,8 @@ status: available
 beds: 3
 baths: 2.5
 sqft: 1354
-rent: 2100
-garagePrice: 125
+rent: 2150
+garagePrice: 100
 garageAvailable: true
 utilitiesNote: "Tenant pays utilities"
 features:
