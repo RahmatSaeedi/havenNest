@@ -16,7 +16,7 @@ export const site = {
 
   // Cloudflare Turnstile site key (public). Replace with the real key from the
   // Turnstile dashboard. The matching secret lives only in the Worker.
-  turnstileSiteKey: '1x00000000000000000000AA', // Cloudflare test key — replace before launch
+  turnstileSiteKey: '0x4AAAAAADf9DjlVzyg3ovxf', // Cloudflare test key — replace before launch
 
   contact: {
     // Public-facing inbox. Applications are emailed to applications@havennest.ca

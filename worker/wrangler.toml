@@ -12,7 +12,7 @@ ALLOWED_ORIGINS = "https://havennest.ca,https://www.havennest.ca,http://localhos
 FROM_EMAIL = "applications@havennest.ca"
 # OWNER must be a VERIFIED destination address in Email Routing (this is where
 # applications are delivered — e.g. a dedicated, 2FA-protected inbox).
-OWNER_EMAIL = "owner@havennest.ca"
+OWNER_EMAIL = "havennestt@gmail.com"
 PUBLIC_API_BASE = "https://api.havennest.ca"
 # Public site origin — used to build the shortlist document-upload link.
 SITE_BASE = "https://havennest.ca"
@@ -31,7 +31,7 @@ bucket_name = "havennest-applications"
 # the domain and OWNER_EMAIL verified as a destination address.
 [[send_email]]
 name = "SEND_EMAIL"
-destination_address = "owner@havennest.ca"
+destination_address = "havennestt@gmail.com"
 
 # Bind the API to a custom subdomain in production (after `wrangler deploy`):
 #   add an `api` DNS record (proxied) and a route, or use:

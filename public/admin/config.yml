@@ -12,9 +12,9 @@
 
 backend:
   name: github
-  repo: your-github-user/havennest
+  repo: RahmatSaeedi/havennest
   branch: main
-  base_url: https://havennest-cms-auth.your-subdomain.workers.dev # OAuth proxy Worker
+  base_url: https://sveltia-cms-auth.r-saeedi.workers.dev # OAuth proxy Worker
 
 local_backend: true
 
