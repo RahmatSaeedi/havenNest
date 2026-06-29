@@ -39,4 +39,4 @@ Approximately **1,417 sq ft** of comfortable, modern living across two levels. T
 
 The upper floor holds three bedrooms, a private ensuite off the primary, and a second full bathroom (2.5 baths total). Every suite includes in-suite laundry, all brand-new appliances, sound-proofing between units and premium insulation for quiet, energy-efficient living.
 
-Free street parking is available, with the option of a single-car detached garage for $125/month.
+Free street parking is available, with the option of a single-car detached garage at an additional cost.
