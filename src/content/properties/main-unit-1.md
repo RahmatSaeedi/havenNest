@@ -39,4 +39,4 @@ This is the largest of our main-floor homes — approximately **1,417 sq ft** of
 
 Upstairs you'll find three generous bedrooms, including a primary suite with its own private ensuite, plus a second full bathroom — 2.5 bathrooms in total. In-suite laundry, brand-new appliances, sound-proofed party walls and premium insulation come standard.
 
-Free street parking is available, with the option of a single-car detached garage for $125/month.
+Free street parking is available, with the option of a single-car detached garage at an additional cost.
