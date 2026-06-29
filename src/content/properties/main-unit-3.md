@@ -39,4 +39,4 @@ Approximately **1,354 sq ft** of bright, open-concept living over two levels. Th
 
 Upstairs are three bedrooms — including a primary with private ensuite — and a second full bathroom, for 2.5 bathrooms in total. In-suite laundry, brand-new appliances, sound-proofed walls and premium insulation are included in every home.
 
-Free street parking is available, with the option of a single-car detached garage for $125/month.
+Free street parking is available, with the option of a single-car detached garage at an additional cost.
