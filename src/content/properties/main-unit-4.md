@@ -39,4 +39,4 @@ Approximately **1,354 sq ft** of modern living across two levels. The open main 
 
 Three bedrooms upstairs include a primary suite with a private ensuite, plus a second full bathroom — 2.5 bathrooms in total. Each home comes with in-suite laundry, all brand-new appliances, sound-proofing between units and best-in-market insulation.
 
-Free street parking is available, with the option of a single-car detached garage for $125/month.
+Free street parking is available, with the option of a single-car detached garage at an additional cost.
