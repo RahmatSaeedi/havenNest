@@ -2,7 +2,7 @@
 title: Main-floor Suite — Unit 1
 unitType: main
 unitLabel: Main-floor Unit 1
-status: available
+status: rented
 beds: 3
 baths: 2.5
 sqft: 1417
