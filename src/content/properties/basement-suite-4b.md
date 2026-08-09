@@ -2,7 +2,7 @@
 title: Basement Suite — Unit 4B
 unitType: basement
 unitLabel: Basement Suite 4b
-status: available
+status: rented
 beds: 2
 baths: 1
 sqft: 685
