@@ -2,7 +2,7 @@
 title: Basement Suite — Unit 1B
 unitType: basement
 unitLabel: Basement Suite 1b
-status: available
+status: rented
 beds: 2
 baths: 1
 sqft: 685
