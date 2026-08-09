@@ -2,7 +2,7 @@
 title: Basement Suite — Unit 3B
 unitType: basement
 unitLabel: Basement Suite 3b
-status: available
+status: rented
 beds: 2
 baths: 1
 sqft: 685
