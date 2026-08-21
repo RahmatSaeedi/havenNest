@@ -2,7 +2,7 @@
 title: Main-floor Suite — Unit 3
 unitType: main
 unitLabel: Main-floor Unit 3
-status: available
+status: rented
 beds: 3
 baths: 2.5
 sqft: 1354
