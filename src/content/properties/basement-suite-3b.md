@@ -6,7 +6,7 @@ status: rented
 beds: 2
 baths: 1
 sqft: 685
-rent: 1300
+rent: 0
 garagePrice: 100
 garageAvailable: true
 utilitiesNote: Tenant pays utilities
